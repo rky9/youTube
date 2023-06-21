@@ -1,27 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { cacheResult } from "../utils/searchSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const cacheSearch = useSelector((store) => store.search);
+
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
   useEffect(() => {
-    const timer = setTimeout(() => getSearchSuggestions(), 300);
+    const timer = setTimeout(() => {
+      if (cacheSearch[searchQuery]) {
+        setSuggestions(cacheSearch[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
+
   const getSearchSuggestions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     console.log(json);
     setSuggestions(json[1]);
+    dispatch(cacheResult({ [searchQuery]: json[1] }));
   };
   return (
     <div className="grid grid-flow-col p-4 shadow-lg fixed w-[100%] bg-white">
