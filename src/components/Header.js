@@ -6,6 +6,7 @@ import { YOUTUBE_SEARCH_API } from "../utils/constants";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -23,7 +24,7 @@ const Header = () => {
     setSuggestions(json[1]);
   };
   return (
-    <div className="grid grid-flow-col p-4 shadow-lg">
+    <div className="grid grid-flow-col p-4 shadow-lg fixed w-[100%] bg-white">
       <div className="flex col-span-1">
         <img
           onClick={() => toggleMenuHandler()}
@@ -44,20 +45,27 @@ const Header = () => {
             className="w-1/2 border border-gray-500 p-2 rounded-l-full"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
           <button className="border border-gray-500 p-2 rounded rounded-r-full bg-gray-100">
             search
           </button>
-          <div className="absolute left-[13rem] bg-white py-2 px-5 w-[36rem] shadow-lg rounded-md border-gray-100">
-            <ul>
-              {suggestions &&
-                suggestions.map((s) => (
-                  <li className="hover:bg-gray-100 shadow-sm py-1 px-5 text-left">
-                    {s}
-                  </li>
-                ))}
-            </ul>
-          </div>
+          {showSuggestions && (
+            <div className="absolute left-[13rem] bg-white py-2 px-5 w-[36rem] shadow-lg rounded-md border-gray-100">
+              <ul>
+                {suggestions &&
+                  suggestions.map((s) => (
+                    <li
+                      key={s}
+                      className="hover:bg-gray-100 shadow-sm py-1 px-5 text-left"
+                    >
+                      {s}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       <div className="col-span-1">
