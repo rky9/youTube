@@ -66,9 +66,9 @@ const Header = () => {
             <div className="absolute left-[13rem] bg-white py-2 px-5 w-[36rem] shadow-lg rounded-md border-gray-100">
               <ul>
                 {suggestions &&
-                  suggestions.map((s) => (
+                  suggestions.map((s, index) => (
                     <li
-                      key={s}
+                      key={index}
                       className="hover:bg-gray-100 shadow-sm py-1 px-5 text-left"
                     >
                       {s}
