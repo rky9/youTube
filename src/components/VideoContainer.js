@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { YOUTUBE_VIDEOS_API } from "../utils/constants";
 import VideoCard from "./VideoCard";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearMessage } from "../utils/chatSlice";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     getVideos();
+    dispatch(clearMessage());
   }, []);
   const getVideos = async () => {
     const data = await fetch(YOUTUBE_VIDEOS_API);
