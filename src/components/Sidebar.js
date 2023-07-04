@@ -6,7 +6,7 @@ const Sidebar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
   if (!isMenuOpen) return null; //Early Return patern
   return (
-    <div className="w-48 p-5 shadow-lg">
+    <div className="p-5 shadow-lg w-60">
       <ul className="">
         <li>
           <Link to={"/"}>Home</Link>

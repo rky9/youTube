@@ -4,6 +4,7 @@ const VideoCard = ({ info }) => {
   const { snippet, statistics } = info;
   //const { channelTitle, title, thumbnails } = snippet;
   console.log(statistics);
+
   return (
     <div className="p-2 m-2 shadow-lg w-64">
       <img
